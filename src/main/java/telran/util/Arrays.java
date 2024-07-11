@@ -17,37 +17,6 @@ public class Arrays {
         return res;
     }
 
-    // public static int[] insert(int[] ar, int index, int number) {
-    //     // TODO
-    //     int[] res = java.util.Arrays.copyOf(ar, ar.length + 1);
-    //     int key = 0;
-    //     while (key < index) {
-    //         res[key] = ar[key];
-    //         key++;
-    //     }
-    //     res[index] = number;
-    //     while (key < ar.length) {
-    //         res[key + 1] = ar[key];
-    //         key++;
-    //     }
-    //     return res;
-    // }
-
-    // public static int[] remove(int[] numbers, int index) {
-    //     // TODO
-    //     int[] res = java.util.Arrays.copyOf(numbers, numbers.length - 1);
-    //     int key = 0;
-    //     while (key <= index) {
-    //         res[key] = numbers[key];
-    //         key++;
-    //     }
-    //     while (key > index && key -1  < res.length) {
-    //         res[key - 1] = numbers[key];
-    //         key++;
-    //     }
-    //     return res;
-    // }
-
     public static int[] insert(int[] ar, int index, int number) {
         int[] res = java.util.Arrays.copyOf(ar, ar.length + 1);
         System.arraycopy(ar, 0, res, 0, index);
