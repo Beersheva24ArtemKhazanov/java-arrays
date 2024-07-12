@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static telran.util.Arrays.*;
 
+import java.util.Random;
+
 public class ArraysTest {
+    private static final int N_ELEMENTS = 1_000;
     int[] numbers = { 10, 7, 12, -4, 13, 3, 14 };
 
     @Test
@@ -36,5 +39,57 @@ public class ArraysTest {
         int index = 3;
         int[] expected = { 10, 7, 12, 13, 3, 14 };
         assertArrayEquals(expected, remove(numbers, index));
+    }
+
+    @Test
+    void sortTest() {
+        int[] testNumbers = java.util.Arrays.copyOf(numbers, numbers.length);
+        sort(testNumbers);
+        int [] expected = {-4, 3, 7, 10, 12, 13, 14};
+        assertArrayEquals(expected, testNumbers);
+    }
+
+    @Test
+    void sortTestRandomArray() {
+        int[] array = getRandomArray(N_ELEMENTS);
+        int limit = array.length - 1;
+        sort(array);
+        for(int i = 0; i < limit; i++) {
+            assertTrue(array[i] <= array[i + 1]);
+        }
+    }
+
+    @Test
+    void testBinarySearch() {
+        int[] array = {6, 5, 12, 15, 3, -8, -16, 96, 23, 115};
+        assertEquals(6, binarySearch(array, 15));
+        assertEquals(-1, binarySearch(array, 322));
+    }
+
+    @Test
+    void testInsertSorted() {
+        int[] array = {-18, -16, -2, 3, 5, 9, 17, 23, 56, 109};
+        int newNumber = 10;
+        int[] expectedAr = {-18, -16, -2, 3, 5, 9, newNumber, 17, 23, 56, 109};
+        assertArrayEquals(expectedAr, insertSorted(array, newNumber));
+    }
+
+    @Test
+    void testIsOneSwap() {
+        int[] array_1 = {-18, -16, -2, 3, 5, 17, 9, 23, 56, 109};
+        int[] array_2 = {12};
+        int[] array_3 = {-18, -16, -2, 3, 5, 17, 9, 56, 23, 109};
+        assertEquals(true, isOneSwap(array_1));
+        assertEquals(true, isOneSwap(array_2));
+        assertEquals(false, isOneSwap(array_3));
+    }
+
+    private int[] getRandomArray(int nElements) {
+        int[] res = new int[nElements];
+        Random random = new Random();
+        for(int i = 0; i< nElements; i++) {
+            res[i] = random.nextInt();
+        }
+        return res;
     }
 }
