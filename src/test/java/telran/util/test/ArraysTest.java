@@ -63,7 +63,8 @@ public class ArraysTest {
     void testBinarySearch() {
         int[] array = {6, 5, 12, 15, 3, -8, -16, 96, 23, 115};
         assertEquals(6, binarySearch(array, 15));
-        assertEquals(-1, binarySearch(array, 322));
+        assertEquals(-10, binarySearch(array, 322));
+        assertEquals(-7, binarySearch(array, 17));
     }
 
     @Test
@@ -79,9 +80,11 @@ public class ArraysTest {
         int[] array_1 = {-18, -16, -2, 3, 5, 17, 9, 23, 56, 109};
         int[] array_2 = {12};
         int[] array_3 = {-18, -16, -2, 3, 5, 17, 9, 56, 23, 109};
+        int[] array_4 = {1, 2, 3, 4, 20, 4, 10, 4};
         assertEquals(true, isOneSwap(array_1));
         assertEquals(true, isOneSwap(array_2));
         assertEquals(false, isOneSwap(array_3));
+        assertEquals(true, isOneSwap(array_4));
     }
 
     private int[] getRandomArray(int nElements) {

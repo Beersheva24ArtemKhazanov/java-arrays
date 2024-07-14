@@ -64,25 +64,25 @@ public class Arrays {
         sort(ar);
         int left = 0;
         int right = ar.length - 1;
+        int res = 0;
+        int index = 0;
         while (left <= right) {
-            int index = left + (right - left) / 2;
+            index = left + (right - left) / 2;
             if (ar[index] == key) {
-                return index;
+                res = index;
+                break;
             } else if (ar[index] < key) {
                 left = index + 1;
             } else {
                 right = index - 1;
             }
         }
-        return -1;    
+        return res == index ? res : -index - 1;   
     }
 
     public static int[] insertSorted(int[] arSorted, int number) {
         int[] res = java.util.Arrays.copyOf(arSorted, arSorted.length + 1);
-        int index = 0;
-        while (index < arSorted.length && arSorted[index] < number) {
-            index++;
-        }
+        int index = -binarySearch(arSorted, number) - 1;
         System.arraycopy(arSorted, 0, res, 0, index);
         res[index] = number;
         System.arraycopy(arSorted, index, res, index + 1, arSorted.length - index);
@@ -91,19 +91,28 @@ public class Arrays {
 
     public static boolean isOneSwap(int[] array) {
         // TODO
+        boolean res = false;
         if (array.length <= 1) {
-            return true;
+            res = true;
         }
         int countSwaps = 0;
+        boolean isSwapOne = true;
         for (int i = 0; i < array.length - 1; i++) {
             if (array[i] > array[i + 1]) {
-                countSwaps++;
-                if (countSwaps > 1) {
-                    return false;
+                for (int j = i + 2; j < array.length; j++) {
+                    if (array[i] > array[j] && array[j] <= array[i + 1]) {
+                        countSwaps++;
+                        isSwapOne = false;
+                        break;
+                    }
+                }
+                if (isSwapOne) {
+                    countSwaps++;
                 }
             }
         }
-        return true;
+        res = countSwaps == 1 ? !res : res;
+        return res;
 
     }
 }
