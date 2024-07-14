@@ -64,7 +64,7 @@ public class Arrays {
         sort(ar);
         int left = 0;
         int right = ar.length - 1;
-        int res = 0;
+        int res = -1;
         int index = 0;
         while (left <= right) {
             index = left + (right - left) / 2;
