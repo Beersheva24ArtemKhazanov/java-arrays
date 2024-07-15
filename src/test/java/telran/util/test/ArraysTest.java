@@ -61,19 +61,24 @@ public class ArraysTest {
 
     @Test
     void testBinarySearch() {
-        int[] array = {6, 5, 12, 15, 3, -8, -16, 96, 23, 115};
+        int[] array = {-16, -8, 3, 5, 6, 12, 15, 23, 96, 115};
+        int[] ar = {1, 2};
         assertEquals(6, binarySearch(array, 15));
         assertEquals(-10, binarySearch(array, 322));
         assertEquals(-7, binarySearch(array, 17));
         assertEquals(-1, binarySearch(array, -26));
+        assertEquals(-2, binarySearch(ar, 5));
     }
 
     @Test
     void testInsertSorted() {
         int[] array = {-18, -16, -2, 3, 5, 9, 17, 23, 56, 109};
+        int[] ar = {1,2};
+        int[] exp = {1, 1, 2};
         int newNumber = 10;
         int[] expectedAr = {-18, -16, -2, 3, 5, 9, newNumber, 17, 23, 56, 109};
         assertArrayEquals(expectedAr, insertSorted(array, newNumber));
+        assertArrayEquals(exp, insertSorted(ar, 1));
     }
 
     @Test

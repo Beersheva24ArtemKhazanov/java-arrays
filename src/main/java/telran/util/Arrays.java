@@ -61,7 +61,6 @@ public class Arrays {
 
     public static int binarySearch(int[] ar, int key) {
         // TODO
-        sort(ar);
         int left = 0;
         int right = ar.length - 1;
         int res = -1;
@@ -82,7 +81,10 @@ public class Arrays {
 
     public static int[] insertSorted(int[] arSorted, int number) {
         int[] res = java.util.Arrays.copyOf(arSorted, arSorted.length + 1);
-        int index = -binarySearch(arSorted, number) - 1;
+        int index = Math.abs(binarySearch(arSorted, number)) - 1;
+        if (index == -1) {
+            index++;
+        }
         System.arraycopy(arSorted, 0, res, 0, index);
         res[index] = number;
         System.arraycopy(arSorted, index, res, index + 1, arSorted.length - index);
