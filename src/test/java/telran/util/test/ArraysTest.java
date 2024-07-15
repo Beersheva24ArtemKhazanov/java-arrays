@@ -68,10 +68,12 @@ public class ArraysTest {
         assertEquals(-7, binarySearch(array, 17));
         assertEquals(-1, binarySearch(array, -26));
         assertEquals(-2, binarySearch(ar, 5));
+        assertEquals(-1, binarySearch(ar, 0));
     }
 
     @Test
     void testInsertSorted() {
+        int[] exp2 = {1,2,5};
         int[] array = {-18, -16, -2, 3, 5, 9, 17, 23, 56, 109};
         int[] ar = {1,2};
         int[] exp = {1, 1, 2};
@@ -79,6 +81,7 @@ public class ArraysTest {
         int[] expectedAr = {-18, -16, -2, 3, 5, 9, newNumber, 17, 23, 56, 109};
         assertArrayEquals(expectedAr, insertSorted(array, newNumber));
         assertArrayEquals(exp, insertSorted(ar, 1));
+        assertArrayEquals(exp2, insertSorted(ar, 5));
     }
 
     @Test

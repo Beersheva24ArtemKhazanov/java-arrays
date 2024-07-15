@@ -81,8 +81,8 @@ public class Arrays {
 
     public static int[] insertSorted(int[] arSorted, int number) {
         int[] res = java.util.Arrays.copyOf(arSorted, arSorted.length + 1);
-        int index = Math.abs(binarySearch(arSorted, number)) - 1;
-        if (index == -1) {
+        int index = Math.abs(binarySearch(res, number)) - 1;
+        if (index == -1 || index == 1) {
             index++;
         }
         System.arraycopy(arSorted, 0, res, 0, index);
