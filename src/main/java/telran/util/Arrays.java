@@ -76,8 +76,8 @@ public class Arrays {
                 right = mid - 1;
             }
         }
-        return index == mid ? index : -left - 1;   
-    }
+        return index == mid && index != 0 ? index : -left - 1;   
+    } 
 
     public static int[] insertSorted(int[] arSorted, int number) {
         int[] res = java.util.Arrays.copyOf(arSorted, arSorted.length + 1);
