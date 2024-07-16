@@ -63,25 +63,28 @@ public class Arrays {
         // TODO
         int left = 0;
         int right = ar.length - 1;
-        int res = -1;
         int index = 0;
+        int mid = 0;
         while (left <= right) {
-            index = left + (right - left) / 2;
-            if (ar[index] == key) {
-                res = index;
+        mid = left + (right - left) / 2;
+            if (ar[mid] == key) {
+                index = mid;
                 break;
-            } else if (ar[index] < key) {
-                left = index + 1;
+            } else if (ar[mid] < key) {
+                left = mid + 1;
             } else {
-                right = index - 1;
+                right = mid - 1;
             }
         }
-        return res == index ? res : -index - 1;   
+        return index == mid ? index : -left - 1;   
     }
 
     public static int[] insertSorted(int[] arSorted, int number) {
         int[] res = java.util.Arrays.copyOf(arSorted, arSorted.length + 1);
         int index = Math.abs(binarySearch(res, number)) - 1;
+        if (index == res.length) {
+            index--;
+        }
         if (index == -1 || index == 1) {
             index++;
         }

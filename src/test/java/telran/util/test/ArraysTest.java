@@ -64,11 +64,12 @@ public class ArraysTest {
         int[] array = {-16, -8, 3, 5, 6, 12, 15, 23, 96, 115};
         int[] ar = {1, 2};
         assertEquals(6, binarySearch(array, 15));
-        assertEquals(-10, binarySearch(array, 322));
-        assertEquals(-7, binarySearch(array, 17));
+        assertEquals(-11, binarySearch(array, 322));
+        assertEquals(-8, binarySearch(array, 17));
         assertEquals(-1, binarySearch(array, -26));
-        assertEquals(-2, binarySearch(ar, 5));
+        assertEquals(-3, binarySearch(ar, 5));
         assertEquals(-1, binarySearch(ar, 0));
+        assertEquals(-3, binarySearch(ar, 5));
     }
 
     @Test
