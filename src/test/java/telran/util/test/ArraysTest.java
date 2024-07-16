@@ -67,9 +67,9 @@ public class ArraysTest {
         assertEquals(-11, binarySearch(array, 322));
         assertEquals(-8, binarySearch(array, 17));
         assertEquals(-1, binarySearch(array, -26));
+        assertEquals(0, binarySearch(array, -16));
         assertEquals(-3, binarySearch(ar, 5));
         assertEquals(-1, binarySearch(ar, 0));
-        assertEquals(-3, binarySearch(ar, 5));
     }
 
     @Test

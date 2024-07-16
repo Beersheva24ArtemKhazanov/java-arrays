@@ -76,7 +76,7 @@ public class Arrays {
                 right = mid - 1;
             }
         }
-        return index == mid && index != 0 ? index : -left - 1;   
+        return ar[mid] == key ? index : -left - 1;   
     } 
 
     public static int[] insertSorted(int[] arSorted, int number) {
