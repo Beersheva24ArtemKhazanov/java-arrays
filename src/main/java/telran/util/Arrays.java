@@ -1,5 +1,7 @@
 package telran.util;
 
+import java.util.Comparator;
+
 public class Arrays {
     public static int search(int[] ar, int key) {
         // TODO
@@ -63,20 +65,16 @@ public class Arrays {
         // TODO
         int left = 0;
         int right = ar.length - 1;
-        int index = 0;
-        int mid = 0;
-        while (left <= right) {
-        mid = left + (right - left) / 2;
-            if (ar[mid] == key) {
-                index = mid;
-                break;
-            } else if (ar[mid] < key) {
-                left = mid + 1;
+        int middle = (left + right) / 2;
+        while (left <= right && ar[middle] != key) {
+            if (key < ar[middle]) {
+                right = middle - 1;
             } else {
-                right = mid - 1;
+                left = middle + 1;
             }
+            middle = (left + right) / 2;
         }
-        return ar[mid] == key ? index : -left - 1;   
+        return left > right ? -(left + 1) : middle; 
     } 
 
     public static int[] insertSorted(int[] arSorted, int number) {
@@ -95,29 +93,88 @@ public class Arrays {
     }
 
     public static boolean isOneSwap(int[] array) {
-        // TODO
+        // return true if a given array has exactly one swap to get sorted array
+        // the swaped array's elements may or may not be neighbors
         boolean res = false;
-        if (array.length <= 1) {
-            res = true;
+        int index1 = -1;
+        int index2 = 0;
+        index1 = getFirstIndex(array);
+        if (index1 > -1) {
+            index2 = getSecondIndex(array, index1);
+            res = isOneSwapCheck(array, index1, index2);
         }
-        int countSwaps = 0;
-        boolean isSwapOne = true;
-        for (int i = 0; i < array.length - 1; i++) {
-            if (array[i] > array[i + 1]) {
-                for (int j = i + 2; j < array.length; j++) {
-                    if (array[i] > array[j] && array[j] <= array[i + 1]) {
-                        countSwaps++;
-                        isSwapOne = false;
-                        break;
-                    }
-                }
-                if (isSwapOne) {
-                    countSwaps++;
-                }
-            }
-        }
-        res = countSwaps == 1 ? !res : res;
         return res;
 
+    }
+
+    private static boolean isOneSwapCheck(int[] array, int index1, int index2) {
+        swap(array, index1, index2);
+        boolean res = isArraySorted(array);
+        swap(array, index2, index1); //array restored after swap
+        return res;
+    }
+
+    private static boolean isArraySorted(int[] array) {
+        int index = 1;
+        while (index < array.length && array[index] >= array[index - 1]) {
+            index++;
+        }
+        return index == array.length;
+    }
+
+    private static int getSecondIndex(int[] array, int index1) {
+        int index = array.length - 1;
+        int lowBorder = index1 + 1;
+        while (index > lowBorder && array[index] >= array[index1]) {
+            index--;
+        }
+        
+        return index;
+        
+    }
+
+    private static int getFirstIndex(int[] array) {
+        int index = 0;
+        int limit = array.length - 1;
+        while(index < limit && array[index] <= array[index + 1]) {
+            index++;
+        }
+        return index == limit ? -1 : index;
+    }
+
+    public static <T> void sort(T[] array, Comparator<T> comparator) {
+        int length = array.length;
+        boolean flSort = false;
+        do {
+             length--;
+             flSort = true;
+             for(int i = 0; i < length; i++) {
+                 if(comparator.compare(array[i], array[i + 1]) > 0) {
+                     swap(array, i, i + 1);
+                     flSort = false;
+                 }
+             }
+        }while(!flSort);
+     }
+
+    private static <T> void swap(T[] array, int i, int j) {
+        T tmp = array[i];
+        array[i] = array[j];
+        array[j] = tmp;
+    }
+
+    public static <T> int binarySearch(T[] array, T key, Comparator<T> comp) {
+        int left = 0;
+        int right = array.length - 1;
+        int middle = (left + right) / 2;
+        while (left <= right && array[middle] != key) {
+            if (comp.compare(array[middle], key) > 0) {
+                right = middle - 1;
+            } else {
+                left = middle + 1;
+            }
+            middle = (left + right) / 2;
+        }
+        return left > right ? -(left + 1) : middle; 
     }
 }
