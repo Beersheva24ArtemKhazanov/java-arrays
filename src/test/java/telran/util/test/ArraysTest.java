@@ -121,7 +121,11 @@ public class ArraysTest {
     void testBinarySearchAnyType() {
         String[] stringSortedASCII = {"aa", "cfta", "lmn", "w"};
         String[] stringSortedLength = {"w", "aa", "lmn", "cfta"};
+        Integer[] numbers = {1000, 2000};
+        Integer[] numbers1 = {1000, 2000, 3000, 4545, 5896};
         assertEquals(1, binarySearch(stringSortedASCII, "cfta", new ComparatorASCII()));
         assertEquals(2, binarySearch(stringSortedLength, "lmn", new ComparatorLength()));
+        assertEquals(0, binarySearch(numbers, 1000, new ComparatorNumbers()));
+        assertEquals(3, binarySearch(numbers1, 4545, new ComparatorNumbers()));
     }
 }

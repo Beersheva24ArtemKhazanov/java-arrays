@@ -167,7 +167,7 @@ public class Arrays {
         int left = 0;
         int right = array.length - 1;
         int middle = (left + right) / 2;
-        while (left <= right && array[middle] != key) {
+        while (left <= right && comp.compare(array[middle], key) != 0) {
             if (comp.compare(array[middle], key) > 0) {
                 right = middle - 1;
             } else {
