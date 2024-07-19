@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import static telran.util.Arrays.*;
 
-import java.util.Comparator;
 import java.util.Random;
 
 public class ArraysTest {
@@ -108,9 +107,9 @@ public class ArraysTest {
 
     @Test
     void testSortAnyType() {
-        String[] strings = {"lmn", "cfta", "w", "aa"};
-        String[] expectdASCII = {"aa", "cfta", "lmn", "w"};
-        String[] expectedLength = {"w", "aa", "lmn", "cfta"};
+        String[] strings = { "lmn", "cfta", "w", "aa" };
+        String[] expectdASCII = { "aa", "cfta", "lmn", "w" };
+        String[] expectedLength = { "w", "aa", "lmn", "cfta" };
         sort(strings, new ComparatorASCII());
         assertArrayEquals(expectdASCII, strings);
         sort(strings, new ComparatorLength());
@@ -119,16 +118,52 @@ public class ArraysTest {
 
     @Test
     void testBinarySearchAnyType() {
-        String[] stringSortedASCII = {"ba", "cfta", "lmn", "w"};
-        String[] stringSortedLength = {"w", "aa", "lmn", "cfta"};
-        Integer[] numbers = {1000, 2000};
-        Integer[] numbers1 = {1000, 2000, 3000, 4545, 5896};
+        String[] stringSortedASCII = { "ba", "cfta", "lmn", "w" };
+        String[] stringSortedLength = { "w", "aa", "lmn", "cfta" };
+        Integer[] numbers = { 1000, 2000 };
+        Integer[] numbers1 = { 1000, 2000, 3000, 4545, 5896 };
         assertEquals(1, binarySearch(stringSortedASCII, "cfta", new ComparatorASCII()));
         assertEquals(-5, binarySearch(stringSortedASCII, "wt", new ComparatorASCII()));
         assertEquals(-1, binarySearch(stringSortedASCII, "aab", new ComparatorASCII()));
-        assertEquals(2, binarySearch(stringSortedLength, "lmn", new ComparatorLength()));
         assertEquals(-4, binarySearch(stringSortedLength, "www", new ComparatorLength()));
+        assertEquals(2, binarySearch(stringSortedLength, "lmn", new ComparatorLength()));
         assertEquals(0, binarySearch(numbers, 1000, new ComparatorNumbers()));
         assertEquals(3, binarySearch(numbers1, 4545, new ComparatorNumbers()));
+        assertEquals(-6, binarySearch(numbers1, 6584, new ComparatorNumbers()));
+        assertEquals(-3, binarySearch(numbers1, 2500, new ComparatorNumbers()));
+    }
+
+    @Test
+    void testBinarySearchNoComparator() {
+        String[] strings = { "ba", "cfta", "lmn", "w" };
+        Person prs1 = new Person(10, "Vasya");
+        Person prs2 = new Person(20, "Petya");
+        Person prs3 = new Person(30, "Sara");
+        Person[] persons = { prs1, prs2, prs3 };
+        assertEquals(1, binarySearch(strings, "cfta"));
+        assertEquals(0, binarySearch(persons, prs1));
+        assertEquals(-1, binarySearch(persons, new Person(5, "Kolya")));
+    }
+
+    @Test
+    void evenOddSorting() {
+        Integer[] array = { 7, -8, 10, -100, 13, -10, 99 };
+        Integer[] expected = { -100, -10, -8, 10, 99, 13, 7 };
+        sort(array, new EvenOddComparator());
+        assertArrayEquals(expected, array);
+    }
+
+    @Test
+    void testFind() {
+        Integer[] array = { 7, -8, 10, -100, 13, -10, 99 };
+        Integer[] expected = { 7, 13, 99, };
+        assertArrayEquals(expected, find(array, new OddNumbersPredicate()));
+    }
+
+    @Test
+    void testRemoveIf() {
+        Integer[] array = { 7, -8, 10, -100, 13, -10, 99 };
+        Integer[] expected = { -8, 10, -100, -10 };
+        assertArrayEquals(expected, removeIf(array, new OddNumbersPredicate()));
     }
 }
