@@ -181,18 +181,7 @@ public class Arrays {
 
     public static <T extends Comparable<T>> int binarySearch(T[] array, T key)  {
         //TODO
-        int left = 0;
-        int right = array.length - 1;
-        int middle = (left + right) / 2;
-        while (left <= right && array[middle].compareTo(key) != 0) {
-            if (array[middle].compareTo(key) > 0) {
-                right = middle - 1;
-            } else {
-                left = middle + 1;
-            }
-            middle = (left + right) / 2;
-        }
-        return left > right ? -(left + 1) : middle; 
+        return binarySearch(array, key, Comparator.naturalOrder());
     }
 
     public static <T> T[] insert(T[] ar, int index, T item) {
@@ -213,6 +202,6 @@ public class Arrays {
     }
 
     public static <T> T[] removeIf(T[] array, Predicate<T> predicate) {
-        return (T[]) java.util.Arrays.stream(array).filter(element -> !predicate.test(element)).toArray();
+        return find(array, predicate.negate());
     }
 }
