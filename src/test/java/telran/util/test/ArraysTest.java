@@ -122,11 +122,13 @@ public class ArraysTest {
         String[] stringSortedLength = { "w", "aa", "lmn", "cfta" };
         Integer[] numbers = { 1000, 2000 };
         Integer[] numbers1 = { 1000, 2000, 3000, 4545, 5896 };
+        String[] array = {"lmn", "abc", "123", "cba"};
         assertEquals(1, binarySearch(stringSortedASCII, "cfta", new ComparatorASCII()));
         assertEquals(-5, binarySearch(stringSortedASCII, "wt", new ComparatorASCII()));
         assertEquals(-1, binarySearch(stringSortedASCII, "aab", new ComparatorASCII()));
-        assertEquals(-4, binarySearch(stringSortedLength, "www", new ComparatorLength()));
+        assertEquals(2, binarySearch(stringSortedLength, "www", new ComparatorLength()));
         assertEquals(2, binarySearch(stringSortedLength, "lmn", new ComparatorLength()));
+        assertEquals(1, binarySearch(array, "lmn", new ComparatorLength()));
         assertEquals(0, binarySearch(numbers, 1000, new ComparatorNumbers()));
         assertEquals(3, binarySearch(numbers1, 4545, new ComparatorNumbers()));
         assertEquals(-6, binarySearch(numbers1, 6584, new ComparatorNumbers()));
@@ -141,6 +143,7 @@ public class ArraysTest {
         Person prs3 = new Person(30, "Sara");
         Person[] persons = { prs1, prs2, prs3 };
         assertEquals(1, binarySearch(strings, "cfta"));
+        assertEquals(0, binarySearch(persons, prs1));
         assertEquals(0, binarySearch(persons, prs1));
         assertEquals(-1, binarySearch(persons, new Person(5, "Kolya")));
     }

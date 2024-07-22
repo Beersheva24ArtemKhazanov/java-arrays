@@ -111,7 +111,7 @@ public class Arrays {
     private static boolean isOneSwapCheck(int[] array, int index1, int index2) {
         swap(array, index1, index2);
         boolean res = isArraySorted(array);
-        swap(array, index2, index1); //array restored after swap
+        swap(array, index2, index1);
         return res;
     }
 
@@ -164,24 +164,26 @@ public class Arrays {
         array[j] = tmp;
     }
 
-    public static <T> int binarySearch(T[] array, T key, Comparator<T> comp) {
+    public static <T> int binarySearch(T[] array, T key, Comparator<T> comparator) {
         int left = 0;
         int right = array.length - 1;
         int middle = (left + right) / 2;
-        while (left <= right && !array[middle].equals(key)) {
-            if (comp.compare(array[middle], key) > 0) {
+        int compRes = 0;
+        while (left <= right && (compRes = comparator.compare(key, array[middle])) != 0) {
+            if (compRes < 0) {
                 right = middle - 1;
             } else {
                 left = middle + 1;
             }
             middle = (left + right) / 2;
         }
-        return left > right ? -(left + 1) : middle; 
+        return left > right ? -(left + 1) : middle;
     }
 
-    public static <T extends Comparable<T>> int binarySearch(T[] array, T key)  {
+    @SuppressWarnings("rawtypes")
+    public static <T> int binarySearch(T[] array, T key)  {
         //TODO
-        return binarySearch(array, key, Comparator.naturalOrder());
+        return binarySearch(array, key, Comparator.comparing(t -> (Comparable) t));
     }
 
     public static <T> T[] insert(T[] ar, int index, T item) {
