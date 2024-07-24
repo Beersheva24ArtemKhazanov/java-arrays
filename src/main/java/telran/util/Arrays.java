@@ -75,8 +75,8 @@ public class Arrays {
             }
             middle = (left + right) / 2;
         }
-        return left > right ? -(left + 1) : middle; 
-    } 
+        return left > right ? -(left + 1) : middle;
+    }
 
     public static int[] insertSorted(int[] arSorted, int number) {
         int[] res = java.util.Arrays.copyOf(arSorted, arSorted.length + 1);
@@ -129,15 +129,15 @@ public class Arrays {
         while (index > lowBorder && array[index] >= array[index1]) {
             index--;
         }
-        
+
         return index;
-        
+
     }
 
     private static int getFirstIndex(int[] array) {
         int index = 0;
         int limit = array.length - 1;
-        while(index < limit && array[index] <= array[index + 1]) {
+        while (index < limit && array[index] <= array[index + 1]) {
             index++;
         }
         return index == limit ? -1 : index;
@@ -147,16 +147,16 @@ public class Arrays {
         int length = array.length;
         boolean flSort = false;
         do {
-             length--;
-             flSort = true;
-             for(int i = 0; i < length; i++) {
-                 if(comparator.compare(array[i], array[i + 1]) > 0) {
-                     swap(array, i, i + 1);
-                     flSort = false;
-                 }
-             }
-        }while(!flSort);
-     }
+            length--;
+            flSort = true;
+            for (int i = 0; i < length; i++) {
+                if (comparator.compare(array[i], array[i + 1]) > 0) {
+                    swap(array, i, i + 1);
+                    flSort = false;
+                }
+            }
+        } while (!flSort);
+    }
 
     private static <T> void swap(T[] array, int i, int j) {
         T tmp = array[i];
@@ -180,10 +180,9 @@ public class Arrays {
         return left > right ? -(left + 1) : middle;
     }
 
-
     @SuppressWarnings("unchecked")
-    public static <T> int binarySearch(T[] array, T key)  {
-        //TODO
+    public static <T> int binarySearch(T[] array, T key) {
+        // TODO
         return binarySearch(array, key, (Comparator<T>) Comparator.naturalOrder());
     }
 
@@ -196,8 +195,8 @@ public class Arrays {
 
     public static <T> T[] find(T[] array, Predicate<T> predicate) {
         T[] result = java.util.Arrays.copyOf(array, 0);
-        for(int i = 0; i < array.length; i++) {
-            if(predicate.test(array[i])) {
+        for (int i = 0; i < array.length; i++) {
+            if (predicate.test(array[i])) {
                 result = insert(result, result.length, array[i]);
             }
         }
@@ -209,18 +208,17 @@ public class Arrays {
     }
 
     public static String matchesRules(char[] chars,
-     CharacterRule[] mustBeRules, CharacterRule[] mustNotBeRule) {
+            CharacterRule[] mustBeRules, CharacterRule[] mustNotBeRule) {
         int i = 0;
         int k = 0;
         String res = "";
         int countMisMatches = 0;
         while (i < mustBeRules.length) {
             for (int j = 0; j < chars.length; j++) {
-                if(mustBeRules[i].isValid(chars[j])) {
+                if (mustBeRules[i].isValid(chars[j])) {
                     res = "matches";
                     break;
                 } else {
-                    res = mustBeRules[i].errorMessage;
                     countMisMatches++;
                 }
             }
@@ -231,45 +229,15 @@ public class Arrays {
             i++;
             countMisMatches = 0;
         }
-        
-        if (countMisMatches != chars.length) {
-            while (k < mustNotBeRule.length) {
-                for (int j = 0; j < chars.length; j++) {
-                    if(mustNotBeRule[k].isValid(chars[j])) {
-                        res = "matches";
-                    } else {
-                        res = mustNotBeRule[k].errorMessage;
-                    }
+
+        while (k < mustNotBeRule.length) {
+            for (int j = 0; j < chars.length; j++) {
+                if (!mustNotBeRule[k].isValid(chars[j])) {
+                    res = mustNotBeRule[k].errorMessage;
                 }
-                k++;
             }
+            k++;
         }
-
-
-        // while (i < chars.length) {
-        //     int countMisMatches = 0;
-        //     for (int j = 0; j < mustBeRules.length; j++) {
-        //         if(mustBeRules[j].isValid(chars[i])) {
-        //             res = "matches";
-        //             break;
-        //         } else {
-        //             res = mustBeRules[j].errorMessage;
-        //             countMisMatches++;
-        //         }
-        //     }
-
-        //     for (int k = 0; k < mustNotBeRule.length; k++) {
-        //         if(mustNotBeRule[k].isValid(chars[i])) {
-        //             res = "matches";
-        //             break;
-        //         } else {
-        //             res = mustNotBeRule[k].errorMessage;
-        //         }
-        //     }
-        //     i++;
-        // }
-        //TODO
-        //consider the class Character for rules definition
         return res;
-     }
+    }
 }
