@@ -3,8 +3,11 @@ package telran.util.test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import telran.util.CharacterRule;
+
 import static telran.util.Arrays.*;
 
+import java.util.Comparator;
 import java.util.Random;
 
 public class ArraysTest {
@@ -110,9 +113,9 @@ public class ArraysTest {
         String[] strings = { "lmn", "cfta", "w", "aa" };
         String[] expectdASCII = { "aa", "cfta", "lmn", "w" };
         String[] expectedLength = { "w", "aa", "lmn", "cfta" };
-        sort(strings, new ComparatorASCII());
+        sort(strings, (a, b) -> a.compareTo(b));
         assertArrayEquals(expectdASCII, strings);
-        sort(strings, new ComparatorLength());
+        sort(strings, (a, b) -> Integer.compare(a.length(), b.length()));
         assertArrayEquals(expectedLength, strings);
     }
 
@@ -122,17 +125,18 @@ public class ArraysTest {
         String[] stringSortedLength = { "w", "aa", "lmn", "cfta" };
         Integer[] numbers = { 1000, 2000 };
         Integer[] numbers1 = { 1000, 2000, 3000, 4545, 5896 };
-        String[] array = {"lmn", "abc", "123", "cba"};
-        assertEquals(1, binarySearch(stringSortedASCII, "cfta", new ComparatorASCII()));
-        assertEquals(-5, binarySearch(stringSortedASCII, "wt", new ComparatorASCII()));
-        assertEquals(-1, binarySearch(stringSortedASCII, "aab", new ComparatorASCII()));
-        assertEquals(2, binarySearch(stringSortedLength, "www", new ComparatorLength()));
-        assertEquals(2, binarySearch(stringSortedLength, "lmn", new ComparatorLength()));
-        assertEquals(1, binarySearch(array, "lmn", new ComparatorLength()));
-        assertEquals(0, binarySearch(numbers, 1000, new ComparatorNumbers()));
-        assertEquals(3, binarySearch(numbers1, 4545, new ComparatorNumbers()));
-        assertEquals(-6, binarySearch(numbers1, 6584, new ComparatorNumbers()));
-        assertEquals(-3, binarySearch(numbers1, 2500, new ComparatorNumbers()));
+        String[] array = { "lmn", "abc", "123", "cba" };
+        Comparator<String> compStrings = (a, b) -> a.compareTo(b);
+        Comparator<Integer> compInteger = Integer::compare;
+        assertEquals(1, binarySearch(stringSortedASCII, "cfta", compStrings));
+        assertEquals(-5, binarySearch(stringSortedASCII, "wt", compStrings));
+        assertEquals(-1, binarySearch(stringSortedASCII, "aab", compStrings));
+        assertEquals(-5, binarySearch(stringSortedLength, "www", compStrings));
+        assertEquals(2, binarySearch(stringSortedLength, "lmn", compStrings));
+        assertEquals(0, binarySearch(numbers, 1000, compInteger));
+        assertEquals(3, binarySearch(numbers1, 4545, compInteger));
+        assertEquals(-6, binarySearch(numbers1, 6584, compInteger));
+        assertEquals(-3, binarySearch(numbers1, 2500, compInteger));
     }
 
     @Test
@@ -152,7 +156,19 @@ public class ArraysTest {
     void evenOddSorting() {
         Integer[] array = { 7, -8, 10, -100, 13, -10, 99 };
         Integer[] expected = { -100, -10, -8, 10, 99, 13, 7 };
-        sort(array, new EvenOddComparator());
+        sort(array, (a, b) -> {
+            int res = 1;
+            if (a % 2 == 0 && b % 2 == 0) {
+                res = a - b;
+            } else if (a % 2 != 0 && b % 2 != 0) {
+                res = b - a;
+            } else if (b % 2 == 0) {
+                res = 1;
+            } else {
+                res = -1;
+            }
+            return res;
+        });
         assertArrayEquals(expected, array);
     }
 
@@ -160,13 +176,41 @@ public class ArraysTest {
     void testFind() {
         Integer[] array = { 7, -8, 10, -100, 13, -10, 99 };
         Integer[] expected = { 7, 13, 99, };
-        assertArrayEquals(expected, find(array, new OddNumbersPredicate()));
+        assertArrayEquals(expected, find(array, n -> n % 2 != 0));
     }
 
     @Test
     void testRemoveIf() {
         Integer[] array = { 7, -8, 10, -100, 13, -10, 99 };
         Integer[] expected = { -8, 10, -100, -10 };
-        assertArrayEquals(expected, removeIf(array, new OddNumbersPredicate()));
+        assertArrayEquals(expected, removeIf(array, n -> n % 2 != 0));
+    }
+    @Test
+    void matchesRulesTest() {
+        CharacterRule isUpperCase = new CharacterRule(true, Character::isUpperCase, "Must be at least one capital letter in array");
+        CharacterRule isLowerCase = new CharacterRule(true, Character::isLowerCase, "Must be at least one lower case letter in array");
+        CharacterRule isDigit = new CharacterRule(true, Character::isDigit, "Must be at least one digit in array");
+        CharacterRule isDot = new CharacterRule(true, c -> c == '.', "Must be at least one dot in array");
+        CharacterRule isSpace = new CharacterRule(false, c -> c == ' ', "Mustn't be a space in array");
+        CharacterRule[] mustBeRules = {isUpperCase, isLowerCase, isDigit, isDot, isSpace};
+        CharacterRule[] mustBeNotRule = {isSpace};
+        char[] chars1 = {'a', 'n', '*', 'G', '.', '.', '1'};
+        char[] chars2 = {'a', 'n', '*', 'G', '.', '.', '1', ' '};
+        char[] chars3 = {'a', 'n', '*',  '.', '.', '1'};
+        char[] chars4 = {'a', 'n', '*', 'G', '.', '.'};
+        char[] chars5 = {'a', 'n', '*', 'G', '4', 'd'};
+        assertEquals("matches", matchesRules(chars1, mustBeRules, mustBeNotRule));
+        assertEquals(isSpace.errorMessage, matchesRules(chars2, mustBeRules, mustBeNotRule));
+        assertEquals(isUpperCase.errorMessage, matchesRules(chars3, mustBeRules, mustBeNotRule));
+        assertEquals(isDigit.errorMessage, matchesRules(chars4, mustBeRules, mustBeNotRule));
+        assertEquals(isDot.errorMessage, matchesRules(chars5, mustBeRules, mustBeNotRule));
+        //TODO
+        //Must be rules: at least one capital letter, at least one lower case letter, at least one digit, at least one dot(.)
+        //Must not be rules: space is disallowed
+        //examples: mathes - {'a', 'n', '*', 'G', '.', '.', '1'}
+        //mismatches - {'a', 'n', '*', 'G', '.', '.', '1', ' '} -> "space disallowed",
+        // {'a', 'n', '*',  '.', '.', '1'} -> "no capital",
+        // {'a', 'n', '*', 'G', '.', '.'} -> "no digit"
+    
     }
 }

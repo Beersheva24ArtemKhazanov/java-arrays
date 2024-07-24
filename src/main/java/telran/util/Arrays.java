@@ -180,10 +180,11 @@ public class Arrays {
         return left > right ? -(left + 1) : middle;
     }
 
-    @SuppressWarnings("rawtypes")
+
+    @SuppressWarnings("unchecked")
     public static <T> int binarySearch(T[] array, T key)  {
         //TODO
-        return binarySearch(array, key, Comparator.comparing(t -> (Comparable) t));
+        return binarySearch(array, key, (Comparator<T>) Comparator.naturalOrder());
     }
 
     public static <T> T[] insert(T[] ar, int index, T item) {
@@ -206,4 +207,69 @@ public class Arrays {
     public static <T> T[] removeIf(T[] array, Predicate<T> predicate) {
         return find(array, predicate.negate());
     }
+
+    public static String matchesRules(char[] chars,
+     CharacterRule[] mustBeRules, CharacterRule[] mustNotBeRule) {
+        int i = 0;
+        int k = 0;
+        String res = "";
+        int countMisMatches = 0;
+        while (i < mustBeRules.length) {
+            for (int j = 0; j < chars.length; j++) {
+                if(mustBeRules[i].isValid(chars[j])) {
+                    res = "matches";
+                    break;
+                } else {
+                    res = mustBeRules[i].errorMessage;
+                    countMisMatches++;
+                }
+            }
+            if (countMisMatches == chars.length) {
+                res = mustBeRules[i].errorMessage;
+                break;
+            }
+            i++;
+            countMisMatches = 0;
+        }
+        
+        if (countMisMatches != chars.length) {
+            while (k < mustNotBeRule.length) {
+                for (int j = 0; j < chars.length; j++) {
+                    if(mustNotBeRule[k].isValid(chars[j])) {
+                        res = "matches";
+                    } else {
+                        res = mustNotBeRule[k].errorMessage;
+                    }
+                }
+                k++;
+            }
+        }
+
+
+        // while (i < chars.length) {
+        //     int countMisMatches = 0;
+        //     for (int j = 0; j < mustBeRules.length; j++) {
+        //         if(mustBeRules[j].isValid(chars[i])) {
+        //             res = "matches";
+        //             break;
+        //         } else {
+        //             res = mustBeRules[j].errorMessage;
+        //             countMisMatches++;
+        //         }
+        //     }
+
+        //     for (int k = 0; k < mustNotBeRule.length; k++) {
+        //         if(mustNotBeRule[k].isValid(chars[i])) {
+        //             res = "matches";
+        //             break;
+        //         } else {
+        //             res = mustNotBeRule[k].errorMessage;
+        //         }
+        //     }
+        //     i++;
+        // }
+        //TODO
+        //consider the class Character for rules definition
+        return res;
+     }
 }
