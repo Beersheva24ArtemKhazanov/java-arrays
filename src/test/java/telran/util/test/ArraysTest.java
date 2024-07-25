@@ -125,7 +125,6 @@ public class ArraysTest {
         String[] stringSortedLength = { "w", "aa", "lmn", "cfta" };
         Integer[] numbers = { 1000, 2000 };
         Integer[] numbers1 = { 1000, 2000, 3000, 4545, 5896 };
-        String[] array = { "lmn", "abc", "123", "cba" };
         Comparator<String> compStrings = (a, b) -> a.compareTo(b);
         Comparator<Integer> compInteger = Integer::compare;
         assertEquals(1, binarySearch(stringSortedASCII, "cfta", compStrings));
@@ -213,6 +212,5 @@ public class ArraysTest {
         //mismatches - {'a', 'n', '*', 'G', '.', '.', '1', ' '} -> "space disallowed",
         // {'a', 'n', '*',  '.', '.', '1'} -> "no capital",
         // {'a', 'n', '*', 'G', '.', '.'} -> "no digit"
-    
     }
 }

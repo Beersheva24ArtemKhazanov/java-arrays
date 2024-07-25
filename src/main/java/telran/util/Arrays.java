@@ -209,21 +209,21 @@ public class Arrays {
 
     public static String matchesRules(char[] chars, CharacterRule[] mustBeRules, CharacterRule[] mustNotBeRules) {
         boolean flag = false;
-        StringBuilder res = new StringBuilder();
+        String res = "";
         for (CharacterRule mustBeRule : mustBeRules) {
             if (!containsMatchingCharacter(chars, mustBeRule)) {
-                res.append(mustBeRule.errorMessage).append(" ");
+                res += mustBeRule.errorMessage + " ";
                 flag = true;
             }
         }
 
         for (CharacterRule mustNotBeRule : mustNotBeRules) {
             if (containsMatchingCharacter(chars, mustNotBeRule)) {
-                res.append(mustNotBeRule.errorMessage);
+                res += mustNotBeRule.errorMessage + " ";
                 flag = true;
             }
         }
-        return flag ? res.toString().trim() : "matches";
+        return flag ? res.trim() : "matches";
     }
 
     private static boolean containsMatchingCharacter(char[] chars, CharacterRule rule) {
