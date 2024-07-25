@@ -199,11 +199,13 @@ public class ArraysTest {
         char[] chars3 = {'a', 'n', '*',  '.', '.', '1'};
         char[] chars4 = {'a', 'n', '*', 'G', '.', '.'};
         char[] chars5 = {'a', 'n', '*', 'G', '4', 'd'};
+        char[] chars6 = {'a', 'n', '*', 'd', ' '};
         assertEquals("matches", matchesRules(chars1, mustBeRules, mustBeNotRules));
         assertEquals(isSpace.errorMessage, matchesRules(chars2, mustBeRules, mustBeNotRules));
         assertEquals(isUpperCase.errorMessage, matchesRules(chars3, mustBeRules, mustBeNotRules));
         assertEquals(isDigit.errorMessage, matchesRules(chars4, mustBeRules, mustBeNotRules));
         assertEquals(isDot.errorMessage, matchesRules(chars5, mustBeRules, mustBeNotRules));
+        assertEquals("no_capital no_digit no_dot space_disallowed", matchesRules(chars6, mustBeRules, mustBeNotRules));
         //TODO
         //Must be rules: at least one capital letter, at least one lower case letter, at least one digit, at least one dot(.)
         //Must not be rules: space is disallowed

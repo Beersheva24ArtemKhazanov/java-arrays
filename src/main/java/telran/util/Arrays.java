@@ -208,19 +208,22 @@ public class Arrays {
     }
 
     public static String matchesRules(char[] chars, CharacterRule[] mustBeRules, CharacterRule[] mustNotBeRules) {
-        String res = "matches";
+        boolean flag = false;
+        StringBuilder res = new StringBuilder();
         for (CharacterRule mustBeRule : mustBeRules) {
             if (!containsMatchingCharacter(chars, mustBeRule)) {
-                res = mustBeRule.errorMessage;
+                res.append(mustBeRule.errorMessage).append(" ");
+                flag = true;
             }
         }
 
         for (CharacterRule mustNotBeRule : mustNotBeRules) {
             if (containsMatchingCharacter(chars, mustNotBeRule)) {
-                res = mustNotBeRule.errorMessage;
+                res.append(mustNotBeRule.errorMessage);
+                flag = true;
             }
         }
-        return res;
+        return flag ? res.toString().trim() : "matches";
     }
 
     private static boolean containsMatchingCharacter(char[] chars, CharacterRule rule) {
