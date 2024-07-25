@@ -207,36 +207,28 @@ public class Arrays {
         return find(array, predicate.negate());
     }
 
-    public static String matchesRules(char[] chars,
-            CharacterRule[] mustBeRules, CharacterRule[] mustNotBeRule) {
-        int i = 0;
-        int k = 0;
-        String res = "";
-        int countMisMatches = 0;
-        while (i < mustBeRules.length) {
-            for (int j = 0; j < chars.length; j++) {
-                if (mustBeRules[i].isValid(chars[j])) {
-                    res = "matches";
-                    break;
-                } else {
-                    countMisMatches++;
-                }
+    public static String matchesRules(char[] chars, CharacterRule[] mustBeRules, CharacterRule[] mustNotBeRules) {
+        String res = "matches";
+        for (CharacterRule mustBeRule : mustBeRules) {
+            if (!containsMatchingCharacter(chars, mustBeRule)) {
+                res = mustBeRule.errorMessage;
             }
-            if (countMisMatches == chars.length) {
-                res = mustBeRules[i].errorMessage;
-                break;
-            }
-            i++;
-            countMisMatches = 0;
         }
 
-        while (k < mustNotBeRule.length) {
-            for (int j = 0; j < chars.length; j++) {
-                if (!mustNotBeRule[k].isValid(chars[j])) {
-                    res = mustNotBeRule[k].errorMessage;
-                }
+        for (CharacterRule mustNotBeRule : mustNotBeRules) {
+            if (containsMatchingCharacter(chars, mustNotBeRule)) {
+                res = mustNotBeRule.errorMessage;
             }
-            k++;
+        }
+        return res;
+    }
+
+    private static boolean containsMatchingCharacter(char[] chars, CharacterRule rule) {
+        boolean res = false;
+        for (char c : chars) {
+            if (rule.isValid(c)) {
+                res = true;
+            }
         }
         return res;
     }

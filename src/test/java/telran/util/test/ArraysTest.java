@@ -187,23 +187,23 @@ public class ArraysTest {
     }
     @Test
     void matchesRulesTest() {
-        CharacterRule isUpperCase = new CharacterRule(true, Character::isUpperCase, "Must be at least one capital letter in array");
-        CharacterRule isLowerCase = new CharacterRule(true, Character::isLowerCase, "Must be at least one lower case letter in array");
-        CharacterRule isDigit = new CharacterRule(true, Character::isDigit, "Must be at least one digit in array");
-        CharacterRule isDot = new CharacterRule(true, c -> c == '.', "Must be at least one dot in array");
-        CharacterRule isSpace = new CharacterRule(false, c -> c == ' ', "Mustn't be a space in array");
-        CharacterRule[] mustBeRules = {isUpperCase, isLowerCase, isDigit, isDot, isSpace};
-        CharacterRule[] mustBeNotRule = {isSpace};
+        CharacterRule isUpperCase = new CharacterRule(true, Character::isUpperCase, "no_capital");
+        CharacterRule isLowerCase = new CharacterRule(true, Character::isLowerCase, "no_lowerCase");
+        CharacterRule isDigit = new CharacterRule(true, Character::isDigit, "no_digit");
+        CharacterRule isDot = new CharacterRule(true, c -> c == '.', "no_dot");
+        CharacterRule isSpace = new CharacterRule(false, c -> c == ' ', "space_disallowed");
+        CharacterRule[] mustBeRules = {isUpperCase, isLowerCase, isDigit, isDot};
+        CharacterRule[] mustBeNotRules = {isSpace};
         char[] chars1 = {'a', 'n', '*', 'G', '.', '.', '1'};
         char[] chars2 = {'a', 'n', '*', 'G', '.', '.', '1', ' '};
         char[] chars3 = {'a', 'n', '*',  '.', '.', '1'};
         char[] chars4 = {'a', 'n', '*', 'G', '.', '.'};
         char[] chars5 = {'a', 'n', '*', 'G', '4', 'd'};
-        assertEquals("matches", matchesRules(chars1, mustBeRules, mustBeNotRule));
-        assertEquals(isSpace.errorMessage, matchesRules(chars2, mustBeRules, mustBeNotRule));
-        assertEquals(isUpperCase.errorMessage, matchesRules(chars3, mustBeRules, mustBeNotRule));
-        assertEquals(isDigit.errorMessage, matchesRules(chars4, mustBeRules, mustBeNotRule));
-        assertEquals(isDot.errorMessage, matchesRules(chars5, mustBeRules, mustBeNotRule));
+        assertEquals("matches", matchesRules(chars1, mustBeRules, mustBeNotRules));
+        assertEquals(isSpace.errorMessage, matchesRules(chars2, mustBeRules, mustBeNotRules));
+        assertEquals(isUpperCase.errorMessage, matchesRules(chars3, mustBeRules, mustBeNotRules));
+        assertEquals(isDigit.errorMessage, matchesRules(chars4, mustBeRules, mustBeNotRules));
+        assertEquals(isDot.errorMessage, matchesRules(chars5, mustBeRules, mustBeNotRules));
         //TODO
         //Must be rules: at least one capital letter, at least one lower case letter, at least one digit, at least one dot(.)
         //Must not be rules: space is disallowed

@@ -15,6 +15,6 @@ public class CharacterRule {
 
     public boolean isValid(char item) {
         boolean result = predicate.test(item);
-        return flag ? result : !result;
+        return result;
     }
 }
